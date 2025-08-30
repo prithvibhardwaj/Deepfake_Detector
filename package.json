@@ -1,0 +1,37 @@
+{
+  "name": "enhanced-deepfake-detector",
+  "version": "2.0.0",
+  "description": "Enhanced deepfake detector with multi-model comparison support",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "setup-models": "python model_setup.py",
+    "test-models": "python test_best_model.py"
+  },
+  "keywords": [
+    "deepfake",
+    "detection",
+    "machine-learning",
+    "computer-vision",
+    "huggingface",
+    "transformers",
+    "comparison"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "cors": "^2.8.5",
+    "fs-extra": "^11.1.1",
+    "python-shell": "^5.0.0",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

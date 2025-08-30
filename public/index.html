@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Deepfake Detector - Model Comparison</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            height: fit-content;
+            align-self: start;
+        }
+
+        .main-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+
+        .sidebar-section h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+
+        .tab-button {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border: none;
+            border-radius: 12px;
+            background: #f7fafc;
+            color: #4a5568;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .tab-button:hover {
+            background: #edf2f7;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .model-input-section {
+            margin-top: 15px;
+        }
+
+        .model-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .model-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .add-model-btn {
+            width: 100%;
+            padding: 10px;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s ease;
+        }
+
+        .add-model-btn:hover {
+            background: #38a169;
+        }
+
+        .model-list {
+            margin-top: 15px;
+        }
+
+        .model-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            background: #f7fafc;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .model-item.active-model {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid #667eea;
+        }
+
+        .remove-model {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        .content-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            min-height: 600px;
+        }
+
+        .upload-panel {
+            display: block;
+        }
+
+        .comparison-panel {
+            display: none;
+        }
+
+        .upload-area {
+            border: 3px dashed #cbd5e0;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f7fafc;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #a0aec0;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            color: #4a5568;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .model-selector {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 12px;
+        }
+
+        .model-selector label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .model-select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .results-panel {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .result-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .real-result {
+            color: #48bb78;
+        }
+
+        .fake-result {
+            color: #f56565;
+        }
+
+        .confidence-badge {
+            background: #4a5568;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .chart-container {
+            height: 400px;
+            margin-bottom: 30px;
+        }
+
+        .comparison-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .preview-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .preview-image, .preview-video {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .analyze-another {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+                order: 2;
+            }
+            
+            .main-area {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>Navigation</h3>
+                <button class="tab-button active" onclick="showPanel('upload')">
+                    📤 Upload & Analyze
+                </button>
+                <button class="tab-button" onclick="showPanel('comparison')">
+                    📊 Model Comparison
+                </button>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Add Custom Model</h3>
+                <div class="model-input-section">
+                    <input type="text" class="model-input" id="modelInput" 
+                           placeholder="huggingface.co/username/model-name">
+                    <button class="add-model-btn" onclick="addCustomModel()">
+                        Add Model
+                    </button>
+                </div>
+                <div class="model-list" id="modelList">
+                    <div class="model-item active-model">
+                        <span>Wvolf/ViT_Deepfake_Detection</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Model Stats</h3>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalModels">1</div>
+                    <div class="stat-label">Active Models</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-area">
+            <div class="header">
+                <h1>🔍 Enhanced Deepfake Detector</h1>
+                <p>Compare multiple models and analyze with custom Hugging Face models</p>
+            </div>
+
+            <div class="content-panel">
+                <!-- Upload Panel -->
+                <div id="uploadPanel" class="upload-panel">
+                    <h2>🎯 Detect Deepfakes</h2>
+                    
+                    <div class="model-selector">
+                        <label for="selectedModel">Select Model for Analysis:</label>
+                        <select class="model-select" id="selectedModel">
+                            <option value="Wvolf/ViT_Deepfake_Detection">Wvolf/ViT_Deepfake_Detection (Default)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">
+                            Drop your image or video here
+                            <br>
+                            <small>Supports: JPG, PNG, MP4, AVI, MOV</small>
+                        </div>
+                        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            Choose File
+                        </button>
+                        <input type="file" id="fileInput" class="file-input" accept="image/*,video/*">
+                    </div>
+                    
+                    <div class="preview-container" id="previewContainer"></div>
+                    <div class="error-message" id="errorMessage"></div>
+                    
+                    <div class="loading" id="loadingPanel">
+                        <div class="spinner"></div>
+                        <p>Analyzing with selected model...</p>
+                    </div>
+                    
+                    <div class="results-panel" id="resultsPanel">
+                        <h3>Analysis Results</h3>
+                        <div id="resultsContent"></div>
+                        <button class="analyze-another" onclick="resetUpload()">Analyze Another File</button>
+                    </div>
+                </div>
+
+                <!-- Comparison Panel -->
+                <div id="comparisonPanel" class="comparison-panel">
+                    <h2>📊 Model Performance Comparison</h2>
+                    
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                    
+                    <div class="comparison-stats" id="comparisonStats">
+                        <!-- Stats will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let models = [
+            {
+                name: 'Wvolf/ViT_Deepfake_Detection',
+                accuracy: 98.7,
+                validation: 97.2,
+                testing: 98.7,
+                active: true
+            }
+        ];
+        
+        let comparisonChart = null;
+        let currentFile = null;
+
+        function showPanel(panelName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show/hide panels
+            document.getElementById('uploadPanel').style.display = panelName === 'upload' ? 'block' : 'none';
+            document.getElementById('comparisonPanel').style.display = panelName === 'comparison' ? 'block' : 'none';
+            
+            if (panelName === 'comparison') {
+                updateComparisonChart();
+            }
+        }
+
+        function addCustomModel() {
+            const input = document.getElementById('modelInput');
+            const modelName = input.value.trim();
+            
+            if (!modelName) {
+                alert('Please enter a model name');
+                return;
+            }
+            
+            // Extract model name from URL if full URL provided
+            const modelPath = modelName.includes('huggingface.co/') ? 
+                modelName.split('huggingface.co/')[1] : modelName;
+            
+            // Check if model already exists
+            if (models.find(m => m.name === modelPath)) {
+                alert('This model is already added');
+                return;
+            }
+            
+            // Add model with placeholder stats (would be fetched from API in real app)
+            const newModel = {
+                name: modelPath,
+                accuracy: Math.random() * 10 + 90, // Placeholder
+                validation: Math.random() * 10 + 85, // Placeholder
+                testing: Math.random() * 10 + 88, // Placeholder
+                active: true
+            };
+            
+            models.push(newModel);
+            input.value = '';
+            
+            updateModelList();
+            updateModelSelector();
+            updateStats();
+        }
+
+        function removeModel(modelName) {
+            models = models.filter(m => m.name !== modelName);
+            updateModelList();
+            updateModelSelector();
+            updateStats();
+        }
+
+        function updateModelList() {
+            const modelList = document.getElementById('modelList');
+            modelList.innerHTML = models.map(model => `
+                <div class="model-item ${model.active ? 'active-model' : ''}">
+                    <span title="${model.name}">${model.name.length > 20 ? model.name.substring(0, 20) + '...' : model.name}</span>
+                    ${models.length > 1 ? `<button class="remove-model" onclick="removeModel('${model.name}')">×</button>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function updateModelSelector() {
+            const selector = document.getElementById('selectedModel');
+            selector.innerHTML = models.map(model => `
+                <option value="${model.name}">${model.name}</option>
+            `).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('totalModels').textContent = models.length;
+        }
+
+        function updateComparisonChart() {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+            
+            comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: models.map(m => m.name.split('/').pop()),
+                    datasets: [
+                        {
+                            label: 'Validation Accuracy',
+                            data: models.map(m => m.validation),
+                            backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Test Accuracy',
+                            data: models.map(m => m.testing),
+                            backgroundColor: 'rgba(118, 75, 162, 0.7)',
+                            borderColor: 'rgba(118, 75, 162, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 80,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Models'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Model Performance Comparison'
+                        },
+                        legend: {
+                            display: true
+                        }
+                    }
+                }
+            });
+            
+            // Update comparison stats
+            updateComparisonStats();
+        }
+
+        function updateComparisonStats() {
+            const stats = document.getElementById('comparisonStats');
+            const avgValidation = models.reduce((sum, m) => sum + m.validation, 0) / models.length;
+            const avgTesting = models.reduce((sum, m) => sum + m.testing, 0) / models.length;
+            const bestModel = models.reduce((best, current) => 
+                current.testing > best.testing ? current : best
+            );
+            
+            stats.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${avgValidation.toFixed(1)}%</div>
+                    <div class="stat-label">Avg Validation</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${avgTesting.toFixed(1)}%</div>
+                    <div class="stat-label">Avg Testing</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${bestModel.testing.toFixed(1)}%</div>
+                    <div class="stat-label">Best Performance</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${bestModel.name.split('/').pop()}</div>
+                    <div class="stat-label">Top Model</div>
+                </div>
+            `;
+        }
+
+        // File upload functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        const loadingPanel = document.getElementById('loadingPanel');
+        const resultsPanel = document.getElementById('resultsPanel');
+        const errorMessage = document.getElementById('errorMessage');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'video/avi', 'video/mov', 'video/quicktime'];
+            if (!validTypes.includes(file.type)) {
+                showError('Please upload a valid image (JPG, PNG) or video (MP4, AVI, MOV) file.');
+                return;
+            }
+
+            if (file.size > 50 * 1024 * 1024) {
+                showError('File size must be less than 50MB.');
+                return;
+            }
+
+            currentFile = file;
+            hideError();
+            showPreview(file);
+            analyzeFile(file);
+        }
+
+        function showPreview(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const isVideo = file.type.startsWith('video/');
+                const element = isVideo ? 
+                    `<video class="preview-video" controls><source src="${e.target.result}" type="${file.type}"></video>` :
+                    `<img class="preview-image" src="${e.target.result}" alt="Preview">`;
+                
+                previewContainer.innerHTML = `
+                    <p><strong>Selected:</strong> ${file.name}</p>
+                    ${element}
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function analyzeFile(file) {
+            const selectedModel = document.getElementById('selectedModel').value;
+            
+            loadingPanel.style.display = 'block';
+            resultsPanel.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('model', selectedModel);
+
+            try {
+                // For demo purposes, simulate API calls to different models
+                const results = await Promise.all(
+                    models.map(async (model) => {
+                        // Simulate API call delay
+                        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+                        
+                        // Simulate different results
+                        const prediction = Math.random() > 0.5 ? 'REAL' : 'FAKE';
+                        const confidence = Math.random() * 0.3 + 0.7; // 70-100%
+                        
+                        return {
+                            model: model.name,
+                            prediction,
+                            confidence
+                        };
+                    })
+                );
+
+                showResults(results);
+            } catch (error) {
+                console.error('Analysis error:', error);
+                showError('An error occurred during analysis. Please try again.');
+            } finally {
+                loadingPanel.style.display = 'none';
+            }
+        }
+
+        function showResults(results) {
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsContent.innerHTML = results.map(result => {
+                const isReal = result.prediction === 'REAL';
+                return `
+                    <div class="result-item">
+                        <div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 4px;">${result.model}</div>
+                            <div class="result-label ${isReal ? 'real-result' : 'fake-result'}">
+                                ${isReal ? '✅' : '❌'} ${result.prediction}
+                            </div>
+                        </div>
+                        <div class="confidence-badge">
+                            ${(result.confidence * 100).toFixed(1)}%
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            resultsPanel.style.display = 'block';
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        function hideError() {
+            errorMessage.style.display = 'none';
+        }
+
+        function resetUpload() {
+            resultsPanel.style.display = 'none';
+            previewContainer.innerHTML = '';
+            fileInput.value = '';
+            currentFile = null;
+            hideError();
+        }
+
+        // Initialize
+        updateModelList();
+        updateModelSelector();
+        updateStats();
+    </script>
+</body>
+</html>
