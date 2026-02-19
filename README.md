@@ -1,194 +1,293 @@
-# Enhanced Deepfake Detector - Multi-Model Comparison Platform
+# FauxFinder
 
-A cutting-edge web application for detecting deepfakes using multiple Vision Transformer models from Hugging Face, with comprehensive model comparison and performance analysis.
+> A multi-model deepfake detection platform powered by Vision Transformers from Hugging Face.
 
-## 🚀 New Features
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white)](https://python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Express](https://img.shields.io/badge/Express-4.x-000000?logo=express)](https://expressjs.com)
+[![HuggingFace](https://img.shields.io/badge/🤗_Hugging_Face-Transformers-FFD21E)](https://huggingface.co)
 
-### Multi-Model Support
-- **Custom Model Integration**: Add any Hugging Face ViT model via URL or model name
-- **Model Validation**: Automatic validation of model availability and compatibility
-- **Dynamic Model Management**: Add/remove models through the web interface
-- **Performance Tracking**: Track accuracy, validation, and testing metrics for each model
+---
 
-### Advanced Analysis
-- **Single Model Analysis**: Analyze files with your selected model
-- **Multi-Model Comparison**: Run the same file through multiple models simultaneously
-- **Confidence Scoring**: Detailed confidence levels for each prediction
-- **Model Performance Metrics**: Real-time comparison of model effectiveness
+## Table of Contents
 
-### Enhanced Interface
-- **Sidebar Navigation**: Streamlined interface with dedicated panels
-- **Interactive Charts**: Visual comparison of model performance using Chart.js
-- **Real-time Statistics**: Live updates of model database and performance
-- **Responsive Design**: Optimized for desktop and mobile devices
+- [Overview](#overview)
+- [Features](#features)
+- [Demo](#demo)
+- [Architecture](#architecture)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Model Setup](#model-setup)
+- [Usage](#usage)
+  - [Web Interface](#web-interface)
+  - [API Reference](#api-reference)
+  - [CLI Usage](#cli-usage)
+- [Configuration](#configuration)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
 
-## 🎯 Model Performance
+---
 
-### Default Model
-- **Model**: `Wvolf/ViT_Deepfake_Detection`
-- **Accuracy**: 98.70% on test set
-- **Architecture**: Vision Transformer (ViT-Base)
-- **Base Model**: google/vit-base-patch16-224
+## Overview
 
-### Recommended Additional Models
-- `dima806/deepfake_vs_real_image_detection`
-- `rizvandwiki/gender-classification-2`
-- `microsoft/DiT-base`
-- `nateraw/vit-base-patch16-224-face-detection`
+FauxFinder is a web application for detecting AI-generated and manipulated media. It leverages multiple Vision Transformer (ViT) models from Hugging Face, enabling side-by-side model comparison and performance benchmarking on the same input file.
 
-## 🛠️ Installation & Setup
+The default model, `Wvolf/ViT_Deepfake_Detection`, achieves **98.70% accuracy** on its test set. Additional models can be added at runtime via the web interface or command line.
+
+---
+
+## Features
+
+| Feature | Description |
+|---|---|
+| **Multi-Model Analysis** | Run any file through multiple ViT models simultaneously |
+| **Custom Model Integration** | Add any Hugging Face image-classification model by URL or name |
+| **Model Validation** | Automatic availability and compatibility checks against the HF API |
+| **Performance Comparison** | Interactive Chart.js bar charts comparing validation vs. test accuracy |
+| **Image & Video Support** | Accepts JPG, PNG, MP4, AVI, and MOV files up to 50 MB |
+| **Confidence Scoring** | Per-model softmax probability scores alongside each prediction |
+| **Responsive UI** | Sidebar navigation with drag-and-drop upload; works on desktop and mobile |
+
+---
+
+## Demo
+
+```
+Upload an image or video → Select one or more models → Get REAL / FAKE predictions with confidence scores
+```
+
+A live comparison chart updates in real time as models are added or removed from the model database.
+
+---
+
+## Architecture
+
+```
+fauxfinder/
+├── public/
+│   └── index.html          # Frontend — single-file SPA (Chart.js, vanilla JS)
+├── server.js               # Express REST API + Python process orchestration
+├── inference.py            # PyTorch inference engine (Auto & ViT class support)
+├── model_setup.py          # CLI model downloader and validator
+├── test_best_model.py      # Integration test suite
+├── requirements.txt        # Python dependencies
+├── package.json            # Node.js dependencies
+└── vercel.json             # Vercel deployment config
+```
+
+**Request flow:**
+
+```
+Browser → Express (server.js) → spawn Python (inference.py) → HuggingFace model → JSON result → Browser
+```
+
+---
+
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- Python 3.8+
-- Internet connection (for model downloads)
 
-### Quick Start
+| Dependency | Minimum Version |
+|---|---|
+| Node.js | 18.0.0 |
+| Python | 3.8 |
+| pip | latest |
+| RAM | 4 GB (8 GB recommended) |
+| Disk | 2 GB free (model cache) |
+
+### Installation
+
+**1. Clone the repository**
+
 ```bash
-# 1. Clone and install dependencies
-git clone <repository-url>
-cd enhanced-deepfake-detector
-npm install
-pip install -r requirements.txt
+git clone https://github.com/your-username/fauxfinder.git
+cd fauxfinder
+```
 
-# 2. Setup models (choose one)
-# Setup recommended models:
+**2. Install Node.js dependencies**
+
+```bash
+npm install
+```
+
+**3. Install Python dependencies**
+
+```bash
+pip install -r requirements.txt
+```
+
+### Model Setup
+
+Choose one of the following setup options:
+
+```bash
+# Download all recommended models
 python model_setup.py
 
-# Interactive setup:
+# Interactive mode — choose which models to install
 python model_setup.py --interactive
 
-# Setup specific model:
+# Download a specific model
 python model_setup.py --model "username/model-name"
+```
 
-# 3. Start the application
+**Recommended models:**
+
+| Model | Notes |
+|---|---|
+| `Wvolf/ViT_Deepfake_Detection` | Default — 98.70% test accuracy |
+| `dima806/deepfake_vs_real_image_detection` | Alternative deepfake detector |
+| `microsoft/DiT-base` | Document Image Transformer baseline |
+
+**4. Start the development server**
+
+```bash
 npm run dev
 ```
 
-Open `http://localhost:3000` in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 📁 Project Structure
-```
-enhanced-deepfake-detector/
-├── public/
-│   └── index.html              # Enhanced frontend with multi-model UI
-├── server.js                   # Enhanced Express server with model management
-├── inference.py                # Enhanced Python inference with custom models
-├── model_setup.py              # Enhanced setup script for multiple models
-├── test_best_model.py          # Testing script
-├── package.json                # Updated Node.js dependencies
-├── requirements.txt            # Enhanced Python dependencies
-├── vercel.json                 # Deployment configuration
-└── README.md                   # This documentation
-```
+---
 
-## 🔄 API Endpoints
+## Usage
 
-### Model Management
-- `GET /api/models` - List all models in database
-- `POST /api/models` - Add new model to database
-- `DELETE /api/models/:modelName` - Remove model from database
+### Web Interface
 
-### Analysis
-- `POST /api/analyze` - Analyze file with single selected model
-- `POST /api/analyze-multiple` - Analyze file with multiple models
-- `GET /api/comparison` - Get model comparison data
+#### Uploading a file
 
-### System
-- `GET /api/health` - Health check with model count
-- `GET /api/debug` - System debug information
+1. Navigate to the **Upload & Analyze** tab.
+2. Select your model from the dropdown (or add a custom one first).
+3. Drag and drop, or click **Choose File**, to upload an image or video.
+4. Results appear below the preview with a prediction label and confidence score.
 
-## 💡 Usage Guide
+#### Adding a custom model
 
-### Adding Custom Models
-
-1. **Via Web Interface**:
-   - Use the sidebar "Add Custom Model" section
-   - Enter Hugging Face model URL or name (e.g., `username/model-name`)
-   - Click "Add Model"
-
-2. **Via Command Line**:
-   ```bash
-   python model_setup.py --model "username/model-name"
-   ```
-
-3. **Supported Model Formats**:
+1. Paste a Hugging Face model URL or short-form name into the **Add Custom Model** field in the sidebar.
    - Full URL: `https://huggingface.co/username/model-name`
    - Short form: `username/model-name`
+2. Click **Add Model**. The server validates the model against the Hugging Face API before adding it.
 
-### Model Comparison
+#### Comparing models
 
-1. **Upload Panel**:
-   - Select model for single analysis
-   - Upload image/video file
-   - View results with confidence scores
+Switch to the **Model Comparison** tab to see a bar chart of validation vs. test accuracy across all registered models, along with aggregate statistics.
 
-2. **Comparison Panel**:
-   - View performance comparison chart
-   - See model statistics and rankings
-   - Compare validation vs. testing accuracy
+---
 
-## 🔧 Technical Implementation
+### API Reference
 
-### Enhanced Backend Features
-- **Model Validation**: Checks model availability on Hugging Face
-- **Dynamic Loading**: Loads models on-demand during inference
-- **Error Handling**: Graceful fallbacks when models fail to load
-- **Performance Tracking**: Stores model metrics in memory database
+#### Model Management
 
-### Frontend Enhancements
-- **Sidebar Navigation**: Clean separation of upload and comparison features
-- **Chart.js Integration**: Interactive performance comparison charts
-- **Real-time Updates**: Dynamic model list and statistics
-- **Responsive Design**: Mobile-friendly interface
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/models` | List all models in the database |
+| `POST` | `/api/models` | Add a new model |
+| `DELETE` | `/api/models/:modelName` | Remove a model |
 
-### Python Inference Improvements
-- **Auto Model Detection**: Supports both Auto and ViT-specific classes
-- **Custom Model Support**: Command-line model specification
-- **Enhanced Error Handling**: Better error messages and fallbacks
-- **Model Information**: Fetches model metadata from Hugging Face API
+**POST `/api/models` — request body:**
 
-## 🚀 Deployment
-
-### Vercel (Recommended)
-```bash
-npm i -g vercel
-vercel --prod
+```json
+{
+  "modelName": "username/model-name"
+}
 ```
 
-### Environment Variables
-```bash
-NODE_ENV=production
+#### Analysis
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/analyze` | Analyse a file with one model |
+| `POST` | `/api/analyze-multiple` | Analyse a file with multiple models |
+| `GET` | `/api/comparison` | Retrieve model comparison data |
+
+**POST `/api/analyze` — form data:**
+
+| Field | Type | Description |
+|---|---|---|
+| `file` | `File` | Image or video file (max 50 MB) |
+| `model` | `string` | Hugging Face model name |
+
+**Response:**
+
+```json
+{
+  "prediction": "FAKE",
+  "confidence": 0.9741,
+  "file_type": "image",
+  "status": "success",
+  "model": "Wvolf/ViT_Deepfake_Detection",
+  "model_info": {}
+}
 ```
 
-### Alternative Platforms
-- **Railway**: Better for Python ML workloads
-- **Google Cloud Run**: Excellent for containerized ML apps
-- **Heroku**: Good Python support with buildpacks
+#### System
 
-## 🎨 Customization
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | Health check |
+| `GET` | `/api/debug` | Runtime environment info |
 
-### Adding New Model Categories
-Edit the `RECOMMENDED_MODELS` list in `model_setup.py`:
+---
+
+### CLI Usage
+
+Run inference directly from the command line:
+
+```bash
+# Analyse an image with the default model
+python inference.py path/to/image.jpg image
+
+# Analyse a video with a custom model
+python inference.py path/to/video.mp4 video "username/model-name"
+```
+
+Validate a model without downloading it:
+
+```bash
+python -c "from model_setup import validate_huggingface_model; print(validate_huggingface_model('Wvolf/ViT_Deepfake_Detection'))"
+```
+
+Run the integration test suite:
+
+```bash
+npm run test-models
+# or
+python test_best_model.py
+```
+
+---
+
+## Configuration
+
+### Adding recommended models
+
+Edit `RECOMMENDED_MODELS` in `model_setup.py`:
+
 ```python
 RECOMMENDED_MODELS = [
-    'your-model/name',
-    'another-user/model-name'
+    'Wvolf/ViT_Deepfake_Detection',
+    'your-username/your-model',
 ]
 ```
 
-### Modifying Performance Metrics
-Update the placeholder metrics in `server.js`:
+### Adjusting placeholder performance metrics
+
+Update the defaults in `server.js` for seeded model data:
+
 ```javascript
 const performanceMetrics = {
-    accuracy: 95.0,  // Your actual accuracy
-    validation: 93.0, // Your validation score
-    testing: 94.0,   // Your testing score
+    accuracy: 95.0,
+    validation: 93.0,
+    testing: 94.0,
 };
 ```
 
-### Custom UI Themes
-Modify CSS variables in `index.html`:
+### Theming
+
+CSS custom properties are defined at the top of `public/index.html`:
+
 ```css
 :root {
     --primary-color: #667eea;
@@ -197,99 +296,101 @@ Modify CSS variables in `index.html`:
 }
 ```
 
-## 🔍 Troubleshooting
+### Environment variables
 
-### Common Issues
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `3000` | HTTP server port |
+| `NODE_ENV` | `development` | Runtime environment |
 
-1. **Model Download Fails**
-   ```bash
-   # Check internet connection and try:
-   python model_setup.py --model "specific-model-name"
-   ```
+---
 
-2. **Memory Errors**
-   ```bash
-   # Use CPU inference or smaller models
-   export CUDA_VISIBLE_DEVICES=""
-   ```
+## Deployment
 
-3. **Model Not Found**
-   ```bash
-   # Verify model exists on Hugging Face:
-   curl -I https://huggingface.co/username/model-name
-   ```
+### Vercel (recommended for front-end + API)
 
-### Debug Commands
 ```bash
-# Test model validation
-python -c "from model_setup import validate_huggingface_model; print(validate_huggingface_model('Wvolf/ViT_Deepfake_Detection'))"
+npm i -g vercel
+vercel --prod
+```
 
-# Test inference
-python inference.py path/to/test/image.jpg image "Wvolf/ViT_Deepfake_Detection"
+The included `vercel.json` routes all `/api/*` requests to `server.js` and serves `public/` as static assets.
 
+> **Note:** Vercel's serverless functions have a maximum execution duration of 30 seconds. Cold-start model loading may exceed this for large models. For production ML workloads, consider the platforms below.
+
+### Alternative platforms
+
+| Platform | Notes |
+|---|---|
+| **Railway** | Native Python support; good for persistent model caching |
+| **Google Cloud Run** | Containerised deployment; scale-to-zero |
+| **Heroku** | Python buildpacks available; requires dyno with sufficient RAM |
+
+---
+
+## Troubleshooting
+
+### Model download fails
+
+```bash
+# Verify the model exists on Hugging Face
+curl -I https://huggingface.co/username/model-name
+
+# Retry with explicit model name
+python model_setup.py --model "username/model-name"
+```
+
+### Out-of-memory errors
+
+```bash
+# Force CPU-only inference
+export CUDA_VISIBLE_DEVICES=""
+python inference.py path/to/file.jpg image
+```
+
+### No JSON output from inference script
+
+```bash
 # Check server debug info
 curl http://localhost:3000/api/debug
 ```
 
-## 🤝 Contributing
+### Python not found on Windows
 
-### Development Workflow
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-model-support`
-3. Make changes and test locally
-4. Add tests for new functionality
-5. Submit a pull request
+Ensure Python is on your `PATH`, or update the `pythonCmd` variable in `server.js`:
 
-### Adding New Features
-- Model batch processing
-- Video frame analysis
-- Custom confidence thresholds
-- Export comparison reports
-- Model performance benchmarking
+```javascript
+const pythonCmd = 'python'; // Windows
+```
 
-## 📊 Performance Benchmarks
+---
 
-### System Requirements
-- **Memory**: 4GB RAM minimum, 8GB recommended
-- **Storage**: 2GB for model cache
-- **Network**: Stable internet for first-time model downloads
+## Contributing
 
-### Expected Performance
-- **Single Model Analysis**: 2-5 seconds per image
-- **Multi-Model Analysis**: 5-15 seconds (depending on model count)
-- **Model Download**: 30-120 seconds (depending on model size)
-- **Cold Start**: 1-3 minutes (first request with new model)
+1. Fork the repository and create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+2. Make your changes and add tests where applicable.
+3. Ensure existing tests pass:
+   ```bash
+   python test_best_model.py
+   ```
+4. Open a pull request with a clear description of your changes.
 
-## 📄 License
+**Ideas for contributions:**
 
-MIT License - Free for educational and commercial use.
+- Batch file processing
+- Per-frame video analysis with timeline view
+- Exportable comparison reports (CSV / PDF)
+- Custom confidence threshold configuration
+- Docker / docker-compose setup
 
-## 🙏 Acknowledgments
+---
 
-- **Base Model**: Wvolf/ViT_Deepfake_Detection (Hugging Face)
-- **Framework**: Hugging Face Transformers
-- **Visualization**: Chart.js
-- **Base Architecture**: Google Vision Transformer
-- **Community Models**: Various Hugging Face contributors
+## Acknowledgements
 
-## 📞 Support
-
-For issues and questions:
-1. Check the troubleshooting section
-2. Review the API documentation
-3. Open a GitHub issue with detailed information
-4. Include debug output from `/api/debug` endpoint
-
-## 🔄 Version History
-
-### v2.0.0 - Multi-Model Support
-- ✅ Custom model integration
-- ✅ Performance comparison charts
-- ✅ Enhanced UI with sidebar navigation
-- ✅ Model validation and management
-- ✅ Multi-model analysis
-
-### v1.0.0 - Initial Release
-- ✅ Single model deepfake detection
-- ✅ Basic web interface
-- ✅ Image and video support
+- [Wvolf/ViT_Deepfake_Detection](https://huggingface.co/Wvolf/ViT_Deepfake_Detection) — primary detection model
+- [Hugging Face Transformers](https://github.com/huggingface/transformers) — model loading and inference
+- [Google Vision Transformer](https://arxiv.org/abs/2010.11929) — underlying ViT architecture
+- [Chart.js](https://www.chartjs.org) — performance comparison visualisations
