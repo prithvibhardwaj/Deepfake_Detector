@@ -13,496 +13,888 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #F4F4F4;
             min-height: 100vh;
-            color: #333;
+            color: #2E2E2E;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+        /* ── Top bar ── */
+        .top-bar {
+            background: #FFFFFF;
+            border-bottom: 1px solid #E5E7EB;
+            padding: 0 28px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .top-bar-logo {
+            width: 34px;
+            height: 34px;
+            background: #4A90E2;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            flex-shrink: 0;
+        }
+
+        .top-bar-logo svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .top-bar-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #2E2E2E;
+        }
+
+        .top-bar-divider {
+            width: 1px;
+            height: 20px;
+            background: #E5E7EB;
+            margin: 0 4px;
+        }
+
+        .top-bar-subtitle {
+            font-size: 0.82rem;
+            color: #9CA3AF;
+        }
+
+        /* ── Page layout ── */
+        .page-body {
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 272px 1fr;
             gap: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 24px;
         }
 
+        /* ── Sidebar ── */
         .sidebar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
             height: fit-content;
             align-self: start;
         }
 
-        .main-area {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: white;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
         .sidebar-section {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
 
-        .sidebar-section h3 {
-            color: #4a5568;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 8px;
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: #9CA3AF;
+            margin-bottom: 8px;
         }
 
         .tab-button {
             width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 8px;
+            padding: 9px 12px;
+            margin-bottom: 3px;
             border: none;
-            border-radius: 12px;
-            background: #f7fafc;
-            color: #4a5568;
-            font-size: 1rem;
+            border-radius: 8px;
+            background: transparent;
+            color: #6B7280;
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: background 0.15s, color 0.15s;
             text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .tab-button svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
         }
 
         .tab-button:hover {
-            background: #edf2f7;
+            background: #F4F4F4;
+            color: #2E2E2E;
         }
 
         .tab-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            transform: translateY(-1px);
+            background: #EBF4FF;
+            color: #4A90E2;
+            font-weight: 600;
         }
 
-        .model-input-section {
-            margin-top: 15px;
+        .sidebar-divider {
+            height: 1px;
+            background: #F0F0F0;
+            margin: 4px 0 20px;
         }
 
         .model-input {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
+            padding: 8px 11px;
+            border: 1px solid #E5E7EB;
+            border-radius: 7px;
+            font-size: 0.82rem;
+            color: #2E2E2E;
+            background: #FFFFFF;
+            margin-bottom: 8px;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .model-input::placeholder {
+            color: #C0C4CC;
         }
 
         .model-input:focus {
-            outline: none;
-            border-color: #667eea;
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.12);
         }
 
         .add-model-btn {
             width: 100%;
-            padding: 10px;
-            background: #48bb78;
-            color: white;
+            padding: 8px 11px;
+            background: #4A90E2;
+            color: #FFFFFF;
             border: none;
-            border-radius: 8px;
+            border-radius: 7px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s ease;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .add-model-btn svg {
+            width: 14px;
+            height: 14px;
         }
 
         .add-model-btn:hover {
-            background: #38a169;
+            background: #357ABD;
         }
 
         .model-list {
-            margin-top: 15px;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
         .model-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 8px 12px;
-            margin-bottom: 5px;
-            background: #f7fafc;
-            border-radius: 8px;
-            font-size: 0.8rem;
+            gap: 8px;
+            padding: 7px 10px;
+            background: #F4F4F4;
+            border-radius: 7px;
+            border: 1px solid transparent;
         }
 
         .model-item.active-model {
-            background: rgba(102, 126, 234, 0.1);
-            border: 1px solid #667eea;
+            background: #EBF4FF;
+            border-color: #BDD7F7;
+        }
+
+        .model-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #D1D5DB;
+            flex-shrink: 0;
+        }
+
+        .model-item.active-model .model-dot {
+            background: #4A90E2;
+        }
+
+        .model-item-name {
+            font-size: 0.78rem;
+            color: #2E2E2E;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+            min-width: 0;
         }
 
         .remove-model {
-            background: #f56565;
-            color: white;
+            background: transparent;
+            color: #C0C4CC;
             border: none;
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 0;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
-            font-size: 0.7rem;
+            font-size: 1rem;
+            line-height: 1;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: color 0.15s, background 0.15s;
+        }
+
+        .remove-model:hover {
+            color: #EF4444;
+            background: #FEE2E2;
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #F4F4F4;
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            background: #EBF4FF;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4A90E2;
+            flex-shrink: 0;
+        }
+
+        .stat-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .stat-num {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2E2E2E;
+            line-height: 1;
+        }
+
+        .stat-desc {
+            font-size: 0.78rem;
+            color: #9CA3AF;
+            margin-top: 2px;
+        }
+
+        /* ── Main content ── */
+        .main-content {
+            min-width: 0;
         }
 
         .content-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            min-height: 600px;
-        }
-
-        .upload-panel {
-            display: block;
-        }
-
-        .comparison-panel {
-            display: none;
-        }
-
-        .upload-area {
-            border: 3px dashed #cbd5e0;
-            border-radius: 15px;
-            padding: 40px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            background: #f7fafc;
-            margin-bottom: 20px;
-        }
-
-        .upload-area:hover {
-            border-color: #667eea;
-            background: #edf2f7;
-        }
-
-        .upload-area.dragover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        .upload-icon {
-            font-size: 3rem;
-            color: #a0aec0;
-            margin-bottom: 15px;
-        }
-
-        .upload-text {
-            color: #4a5568;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .upload-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .upload-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .model-selector {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f7fafc;
+            background: #FFFFFF;
+            border: 1px solid #E5E7EB;
             border-radius: 12px;
+            padding: 28px;
+            min-height: 580px;
         }
 
-        .model-selector label {
+        /* Panel header */
+        .panel-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .panel-header-icon {
+            width: 42px;
+            height: 42px;
+            background: #EBF4FF;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4A90E2;
+            flex-shrink: 0;
+        }
+
+        .panel-header-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .panel-header h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #2E2E2E;
+            line-height: 1.3;
+        }
+
+        .panel-header p {
+            font-size: 0.82rem;
+            color: #9CA3AF;
+            margin-top: 3px;
+        }
+
+        /* Upload panel */
+        .upload-panel { display: block; }
+        .comparison-panel { display: none; }
+
+        /* Field */
+        .field-group {
+            margin-bottom: 18px;
+        }
+
+        .field-label {
             display: block;
-            margin-bottom: 8px;
+            font-size: 0.82rem;
             font-weight: 600;
-            color: #4a5568;
+            color: #2E2E2E;
+            margin-bottom: 6px;
         }
 
         .model-select {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #e2e8f0;
+            padding: 9px 12px;
+            border: 1px solid #E5E7EB;
             border-radius: 8px;
-            background: white;
+            background: #FFFFFF;
+            font-size: 0.875rem;
+            color: #2E2E2E;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239CA3AF' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
         }
 
+        .model-select:focus {
+            border-color: #4A90E2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.12);
+        }
+
+        /* Upload area */
+        .upload-area {
+            border: 2px dashed #D1D5DB;
+            border-radius: 12px;
+            padding: 44px 28px;
+            text-align: center;
+            transition: border-color 0.2s, background 0.2s;
+            cursor: pointer;
+            background: #FAFAFA;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: #4A90E2;
+            background: #EBF4FF;
+        }
+
+        .upload-area:hover .upload-icon-wrap,
+        .upload-area.dragover .upload-icon-wrap {
+            background: #BDD7F7;
+            color: #4A90E2;
+        }
+
+        .upload-icon-wrap {
+            width: 54px;
+            height: 54px;
+            background: #E5E7EB;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            color: #9CA3AF;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .upload-icon-wrap svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        .upload-text-main {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2E2E2E;
+            margin-bottom: 4px;
+        }
+
+        .upload-text-sub {
+            font-size: 0.8rem;
+            color: #9CA3AF;
+            margin-bottom: 16px;
+        }
+
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #4A90E2;
+            color: #FFFFFF;
+            border: none;
+            padding: 9px 22px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .upload-btn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .upload-btn:hover {
+            background: #357ABD;
+        }
+
+        .file-input { display: none; }
+
+        /* Preview */
+        .preview-container {
+            margin-bottom: 16px;
+        }
+
+        .preview-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+        }
+
+        .preview-filename {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2E2E2E;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .preview-filename svg {
+            width: 14px;
+            height: 14px;
+            color: #9CA3AF;
+            flex-shrink: 0;
+        }
+
+        .preview-image,
+        .preview-video {
+            max-width: 100%;
+            max-height: 220px;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            display: block;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 56px 20px;
+        }
+
+        .spinner {
+            width: 42px;
+            height: 42px;
+            border: 3px solid #E5E7EB;
+            border-top-color: #4A90E2;
+            border-radius: 50%;
+            animation: spin 0.75s linear infinite;
+            margin: 0 auto 14px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 0.875rem;
+            color: #9CA3AF;
+        }
+
+        /* Results */
         .results-panel {
             display: none;
             margin-top: 20px;
-            padding: 20px;
-            background: #f7fafc;
-            border-radius: 12px;
+        }
+
+        .results-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .results-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #2E2E2E;
         }
 
         .result-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: white;
+            justify-content: space-between;
+            padding: 13px 16px;
+            margin-bottom: 8px;
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .result-left {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            min-width: 0;
+        }
+
+        .result-model-name {
+            font-size: 0.75rem;
+            color: #9CA3AF;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .result-label {
-            font-weight: 600;
-            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.95rem;
+            font-weight: 700;
         }
 
-        .real-result {
-            color: #48bb78;
+        .result-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
         }
 
-        .fake-result {
-            color: #f56565;
-        }
+        .real-result { color: #16A34A; }
+        .fake-result { color: #DC2626; }
+        .dot-real { background: #16A34A; }
+        .dot-fake { background: #DC2626; }
 
         .confidence-badge {
-            background: #4a5568;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.9rem;
+            background: #2E2E2E;
+            color: #FFFFFF;
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
-        .loading {
+        .analyze-another {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: transparent;
+            color: #4A90E2;
+            border: 1px solid #4A90E2;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-top: 14px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .analyze-another svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .analyze-another:hover {
+            background: #4A90E2;
+            color: #FFFFFF;
+        }
+
+        /* Error */
+        .error-message {
+            background: #FEF2F2;
+            color: #DC2626;
+            padding: 11px 14px;
+            border-radius: 8px;
+            border: 1px solid #FECACA;
+            margin-top: 14px;
+            font-size: 0.82rem;
             display: none;
-            text-align: center;
-            padding: 40px;
+            align-items: center;
+            gap: 8px;
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #e2e8f0;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+        .error-message svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        /* Comparison */
         .chart-container {
-            height: 400px;
-            margin-bottom: 30px;
+            height: 360px;
+            margin-bottom: 24px;
         }
 
         .comparison-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
         }
 
         .stat-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            padding: 16px;
+            border-radius: 10px;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .stat-value {
-            font-size: 1.5rem;
+        .stat-card .stat-value {
+            font-size: 1.35rem;
             font-weight: 700;
-            color: #667eea;
+            color: #4A90E2;
+            line-height: 1.2;
+            margin-bottom: 4px;
         }
 
-        .stat-label {
-            color: #4a5568;
-            font-size: 0.9rem;
+        .stat-card .stat-label {
+            font-size: 0.78rem;
+            color: #9CA3AF;
         }
 
-        .preview-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .preview-image, .preview-video {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .error-message {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .analyze-another {
-            background: #4a5568;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 15px;
-        }
-
-        @media (max-width: 1200px) {
-            .container {
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .page-body {
                 grid-template-columns: 1fr;
             }
-            
-            .sidebar {
-                position: static;
-                order: 2;
-            }
-            
-            .main-area {
-                order: 1;
-            }
         }
 
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .container {
-                padding: 15px;
-            }
+        @media (max-width: 600px) {
+            .top-bar { padding: 0 16px; }
+            .top-bar-divider,
+            .top-bar-subtitle { display: none; }
+            .page-body { padding: 16px; gap: 14px; }
+            .content-panel { padding: 20px; }
+            .upload-area { padding: 32px 16px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
+
+    <!-- Top bar -->
+    <header class="top-bar">
+        <div class="top-bar-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+                <path d="M11 8v6M8 11h6"/>
+            </svg>
+        </div>
+        <span class="top-bar-title">FauxFinder</span>
+        <div class="top-bar-divider"></div>
+        <span class="top-bar-subtitle">Multi-model analysis powered by Hugging Face</span>
+    </header>
+
+    <!-- Page body -->
+    <div class="page-body">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
             <div class="sidebar-section">
-                <h3>Navigation</h3>
-                <button class="tab-button active" onclick="showPanel('upload')">
-                    📤 Upload & Analyze
+                <div class="section-label">Navigation</div>
+                <button class="tab-button active" onclick="showPanel('upload', this)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Upload &amp; Analyze
                 </button>
-                <button class="tab-button" onclick="showPanel('comparison')">
-                    📊 Model Comparison
+                <button class="tab-button" onclick="showPanel('comparison', this)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"/>
+                        <line x1="12" y1="20" x2="12" y2="4"/>
+                        <line x1="6" y1="20" x2="6" y2="14"/>
+                    </svg>
+                    Model Comparison
                 </button>
             </div>
 
+            <div class="sidebar-divider"></div>
+
             <div class="sidebar-section">
-                <h3>Add Custom Model</h3>
-                <div class="model-input-section">
-                    <input type="text" class="model-input" id="modelInput" 
-                           placeholder="huggingface.co/username/model-name">
-                    <button class="add-model-btn" onclick="addCustomModel()">
-                        Add Model
-                    </button>
-                </div>
-                <div class="model-list" id="modelList">
-                    <div class="model-item active-model">
-                        <span>Wvolf/ViT_Deepfake_Detection</span>
+                <div class="section-label">Add Custom Model</div>
+                <input type="text" class="model-input" id="modelInput"
+                       placeholder="username/model-name">
+                <button class="add-model-btn" onclick="addCustomModel()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Add Model
+                </button>
+                <div class="model-list" id="modelList"></div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+                <div class="section-label">Stats</div>
+                <div class="stat-row">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21h8M12 17v4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="stat-num" id="totalModels">1</div>
+                        <div class="stat-desc">Active models</div>
                     </div>
                 </div>
             </div>
 
-            <div class="sidebar-section">
-                <h3>Model Stats</h3>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalModels">1</div>
-                    <div class="stat-label">Active Models</div>
-                </div>
-            </div>
-        </div>
+        </aside>
 
-        <div class="main-area">
-            <div class="header">
-                <h1>🔍 FauxFinder</h1>
-                <p>Compare multiple models and analyze with custom Hugging Face models</p>
-            </div>
-
+        <!-- Main content -->
+        <main class="main-content">
             <div class="content-panel">
-                <!-- Upload Panel -->
+
+                <!-- Upload panel -->
                 <div id="uploadPanel" class="upload-panel">
-                    <h2>🎯 Detect Deepfakes</h2>
-                    
-                    <div class="model-selector">
-                        <label for="selectedModel">Select Model for Analysis:</label>
+
+                    <div class="panel-header">
+                        <div class="panel-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2>Detect Deepfakes</h2>
+                            <p>Upload an image or video to analyze with the selected model</p>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="selectedModel">Model for analysis</label>
                         <select class="model-select" id="selectedModel">
                             <option value="Wvolf/ViT_Deepfake_Detection">Wvolf/ViT_Deepfake_Detection (Default)</option>
                         </select>
                     </div>
-                    
+
                     <div class="upload-area" id="uploadArea">
-                        <div class="upload-icon">📁</div>
-                        <div class="upload-text">
-                            Drop your image or video here
-                            <br>
-                            <small>Supports: JPG, PNG, MP4, AVI, MOV</small>
+                        <div class="upload-icon-wrap">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
                         </div>
+                        <div class="upload-text-main">Drop your file here</div>
+                        <div class="upload-text-sub">Supports JPG, PNG, MP4, AVI, MOV &middot; Max 50 MB</div>
                         <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
                             Choose File
                         </button>
                         <input type="file" id="fileInput" class="file-input" accept="image/*,video/*">
                     </div>
-                    
+
                     <div class="preview-container" id="previewContainer"></div>
-                    <div class="error-message" id="errorMessage"></div>
-                    
+
+                    <div class="error-message" id="errorMessage">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        <span id="errorText"></span>
+                    </div>
+
                     <div class="loading" id="loadingPanel">
                         <div class="spinner"></div>
-                        <p>Analyzing with selected model...</p>
+                        <div class="loading-text">Analyzing with selected model&hellip;</div>
                     </div>
-                    
+
                     <div class="results-panel" id="resultsPanel">
-                        <h3>Analysis Results</h3>
+                        <div class="results-title-row">
+                            <span class="results-title">Analysis Results</span>
+                        </div>
                         <div id="resultsContent"></div>
-                        <button class="analyze-another" onclick="resetUpload()">Analyze Another File</button>
+                        <button class="analyze-another" onclick="resetUpload()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="1 4 1 10 7 10"/>
+                                <path d="M3.51 15a9 9 0 1 0 .49-5.51"/>
+                            </svg>
+                            Analyze Another File
+                        </button>
                     </div>
+
                 </div>
 
-                <!-- Comparison Panel -->
+                <!-- Comparison panel -->
                 <div id="comparisonPanel" class="comparison-panel">
-                    <h2>📊 Model Performance Comparison</h2>
-                    
+
+                    <div class="panel-header">
+                        <div class="panel-header-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2>Model Performance Comparison</h2>
+                            <p>Validation and test accuracy across all active models</p>
+                        </div>
+                    </div>
+
                     <div class="chart-container">
                         <canvas id="comparisonChart"></canvas>
                     </div>
-                    
-                    <div class="comparison-stats" id="comparisonStats">
-                        <!-- Stats will be populated dynamically -->
-                    </div>
+
+                    <div class="comparison-stats" id="comparisonStats"></div>
+
                 </div>
+
             </div>
-        </div>
+        </main>
+
     </div>
 
     <script>
@@ -515,19 +907,17 @@
                 active: true
             }
         ];
-        
+
         let comparisonChart = null;
         let currentFile = null;
 
-        function showPanel(panelName) {
-            // Update tab buttons
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Show/hide panels
+        function showPanel(panelName, btn) {
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
             document.getElementById('uploadPanel').style.display = panelName === 'upload' ? 'block' : 'none';
             document.getElementById('comparisonPanel').style.display = panelName === 'comparison' ? 'block' : 'none';
-            
+
             if (panelName === 'comparison') {
                 updateComparisonChart();
             }
@@ -536,34 +926,30 @@
         function addCustomModel() {
             const input = document.getElementById('modelInput');
             const modelName = input.value.trim();
-            
+
             if (!modelName) {
                 alert('Please enter a model name');
                 return;
             }
-            
-            // Extract model name from URL if full URL provided
-            const modelPath = modelName.includes('huggingface.co/') ? 
-                modelName.split('huggingface.co/')[1] : modelName;
-            
-            // Check if model already exists
+
+            const modelPath = modelName.includes('huggingface.co/')
+                ? modelName.split('huggingface.co/')[1]
+                : modelName;
+
             if (models.find(m => m.name === modelPath)) {
                 alert('This model is already added');
                 return;
             }
-            
-            // Add model with placeholder stats (would be fetched from API in real app)
-            const newModel = {
+
+            models.push({
                 name: modelPath,
-                accuracy: Math.random() * 10 + 90, // Placeholder
-                validation: Math.random() * 10 + 85, // Placeholder
-                testing: Math.random() * 10 + 88, // Placeholder
+                accuracy: Math.random() * 10 + 90,
+                validation: Math.random() * 10 + 85,
+                testing: Math.random() * 10 + 88,
                 active: true
-            };
-            
-            models.push(newModel);
+            });
+
             input.value = '';
-            
             updateModelList();
             updateModelSelector();
             updateStats();
@@ -580,17 +966,20 @@
             const modelList = document.getElementById('modelList');
             modelList.innerHTML = models.map(model => `
                 <div class="model-item ${model.active ? 'active-model' : ''}">
-                    <span title="${model.name}">${model.name.length > 20 ? model.name.substring(0, 20) + '...' : model.name}</span>
-                    ${models.length > 1 ? `<button class="remove-model" onclick="removeModel('${model.name}')">×</button>` : ''}
+                    <div class="model-dot"></div>
+                    <span class="model-item-name" title="${model.name}">${model.name}</span>
+                    ${models.length > 1
+                        ? `<button class="remove-model" onclick="removeModel('${model.name}')" title="Remove model">&times;</button>`
+                        : ''}
                 </div>
             `).join('');
         }
 
         function updateModelSelector() {
             const selector = document.getElementById('selectedModel');
-            selector.innerHTML = models.map(model => `
-                <option value="${model.name}">${model.name}</option>
-            `).join('');
+            selector.innerHTML = models.map(model =>
+                `<option value="${model.name}">${model.name}</option>`
+            ).join('');
         }
 
         function updateStats() {
@@ -599,11 +988,11 @@
 
         function updateComparisonChart() {
             const ctx = document.getElementById('comparisonChart').getContext('2d');
-            
+
             if (comparisonChart) {
                 comparisonChart.destroy();
             }
-            
+
             comparisonChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -612,16 +1001,18 @@
                         {
                             label: 'Validation Accuracy',
                             data: models.map(m => m.validation),
-                            backgroundColor: 'rgba(102, 126, 234, 0.7)',
-                            borderColor: 'rgba(102, 126, 234, 1)',
-                            borderWidth: 1
+                            backgroundColor: 'rgba(74, 144, 226, 0.75)',
+                            borderColor: '#4A90E2',
+                            borderWidth: 1,
+                            borderRadius: 4
                         },
                         {
                             label: 'Test Accuracy',
                             data: models.map(m => m.testing),
-                            backgroundColor: 'rgba(118, 75, 162, 0.7)',
-                            borderColor: 'rgba(118, 75, 162, 1)',
-                            borderWidth: 1
+                            backgroundColor: 'rgba(46, 46, 46, 0.65)',
+                            borderColor: '#2E2E2E',
+                            borderWidth: 1,
+                            borderRadius: 4
                         }
                     ]
                 },
@@ -633,42 +1024,51 @@
                             beginAtZero: false,
                             min: 80,
                             max: 100,
+                            grid: { color: '#F0F0F0' },
+                            ticks: { color: '#9CA3AF', font: { size: 12 } },
                             title: {
                                 display: true,
-                                text: 'Accuracy (%)'
+                                text: 'Accuracy (%)',
+                                color: '#6B7280',
+                                font: { size: 12 }
                             }
                         },
                         x: {
+                            grid: { display: false },
+                            ticks: { color: '#6B7280', font: { size: 12 } },
                             title: {
                                 display: true,
-                                text: 'Models'
+                                text: 'Models',
+                                color: '#6B7280',
+                                font: { size: 12 }
                             }
                         }
                     },
                     plugins: {
-                        title: {
-                            display: true,
-                            text: 'Model Performance Comparison'
-                        },
+                        title: { display: false },
                         legend: {
-                            display: true
+                            display: true,
+                            labels: {
+                                color: '#6B7280',
+                                font: { size: 12 },
+                                boxWidth: 14,
+                                boxHeight: 14,
+                                borderRadius: 3
+                            }
                         }
                     }
                 }
             });
-            
-            // Update comparison stats
+
             updateComparisonStats();
         }
 
         function updateComparisonStats() {
             const stats = document.getElementById('comparisonStats');
-            const avgValidation = models.reduce((sum, m) => sum + m.validation, 0) / models.length;
-            const avgTesting = models.reduce((sum, m) => sum + m.testing, 0) / models.length;
-            const bestModel = models.reduce((best, current) => 
-                current.testing > best.testing ? current : best
-            );
-            
+            const avgValidation = models.reduce((s, m) => s + m.validation, 0) / models.length;
+            const avgTesting = models.reduce((s, m) => s + m.testing, 0) / models.length;
+            const bestModel = models.reduce((best, cur) => cur.testing > best.testing ? cur : best);
+
             stats.innerHTML = `
                 <div class="stat-card">
                     <div class="stat-value">${avgValidation.toFixed(1)}%</div>
@@ -683,13 +1083,13 @@
                     <div class="stat-label">Best Performance</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${bestModel.name.split('/').pop()}</div>
+                    <div class="stat-value" style="font-size:0.95rem">${bestModel.name.split('/').pop()}</div>
                     <div class="stat-label">Top Model</div>
                 </div>
             `;
         }
 
-        // File upload functionality
+        // ── File upload ──
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const previewContainer = document.getElementById('previewContainer');
@@ -709,16 +1109,11 @@
         uploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
             uploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleFile(files[0]);
-            }
+            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
         });
 
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
-            }
+            if (e.target.files.length > 0) handleFile(e.target.files[0]);
         });
 
         function handleFile(file) {
@@ -727,12 +1122,10 @@
                 showError('Please upload a valid image (JPG, PNG) or video (MP4, AVI, MOV) file.');
                 return;
             }
-
             if (file.size > 50 * 1024 * 1024) {
-                showError('File size must be less than 50MB.');
+                showError('File size must be less than 50 MB.');
                 return;
             }
-
             currentFile = file;
             hideError();
             showPreview(file);
@@ -743,50 +1136,42 @@
             const reader = new FileReader();
             reader.onload = (e) => {
                 const isVideo = file.type.startsWith('video/');
-                const element = isVideo ? 
-                    `<video class="preview-video" controls><source src="${e.target.result}" type="${file.type}"></video>` :
-                    `<img class="preview-image" src="${e.target.result}" alt="Preview">`;
-                
+                const media = isVideo
+                    ? `<video class="preview-video" controls><source src="${e.target.result}" type="${file.type}"></video>`
+                    : `<img class="preview-image" src="${e.target.result}" alt="Preview">`;
+
                 previewContainer.innerHTML = `
-                    <p><strong>Selected:</strong> ${file.name}</p>
-                    ${element}
+                    <div class="preview-label">Preview</div>
+                    <div class="preview-filename">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        ${file.name}
+                    </div>
+                    ${media}
                 `;
             };
             reader.readAsDataURL(file);
         }
 
         async function analyzeFile(file) {
-            const selectedModel = document.getElementById('selectedModel').value;
-            
             loadingPanel.style.display = 'block';
             resultsPanel.style.display = 'none';
 
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('model', selectedModel);
-
             try {
-                // For demo purposes, simulate API calls to different models
                 const results = await Promise.all(
                     models.map(async (model) => {
-                        // Simulate API call delay
-                        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-                        
-                        // Simulate different results
-                        const prediction = Math.random() > 0.5 ? 'REAL' : 'FAKE';
-                        const confidence = Math.random() * 0.3 + 0.7; // 70-100%
-                        
+                        await new Promise(r => setTimeout(r, 1000 + Math.random() * 2000));
                         return {
                             model: model.name,
-                            prediction,
-                            confidence
+                            prediction: Math.random() > 0.5 ? 'REAL' : 'FAKE',
+                            confidence: Math.random() * 0.3 + 0.7
                         };
                     })
                 );
-
                 showResults(results);
-            } catch (error) {
-                console.error('Analysis error:', error);
+            } catch (err) {
                 showError('An error occurred during analysis. Please try again.');
             } finally {
                 loadingPanel.style.display = 'none';
@@ -794,31 +1179,28 @@
         }
 
         function showResults(results) {
-            const resultsContent = document.getElementById('resultsContent');
-            
-            resultsContent.innerHTML = results.map(result => {
-                const isReal = result.prediction === 'REAL';
+            const content = document.getElementById('resultsContent');
+            content.innerHTML = results.map(r => {
+                const isReal = r.prediction === 'REAL';
                 return `
                     <div class="result-item">
-                        <div>
-                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 4px;">${result.model}</div>
+                        <div class="result-left">
+                            <div class="result-model-name">${r.model}</div>
                             <div class="result-label ${isReal ? 'real-result' : 'fake-result'}">
-                                ${isReal ? '✅' : '❌'} ${result.prediction}
+                                <span class="result-dot ${isReal ? 'dot-real' : 'dot-fake'}"></span>
+                                ${r.prediction}
                             </div>
                         </div>
-                        <div class="confidence-badge">
-                            ${(result.confidence * 100).toFixed(1)}%
-                        </div>
+                        <div class="confidence-badge">${(r.confidence * 100).toFixed(1)}%</div>
                     </div>
                 `;
             }).join('');
-
             resultsPanel.style.display = 'block';
         }
 
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
+        function showError(msg) {
+            document.getElementById('errorText').textContent = msg;
+            errorMessage.style.display = 'flex';
         }
 
         function hideError() {
@@ -833,7 +1215,7 @@
             hideError();
         }
 
-        // Initialize
+        // Init
         updateModelList();
         updateModelSelector();
         updateStats();
